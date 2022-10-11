@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView, Button, Image } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
-import { Camera, CameraType } from 'expo-camera';
+import { Camera, CameraType, FlashMode } from 'expo-camera';
 import { shareAsync } from 'expo-sharing';
 import * as MediaLibrary from 'expo-media-library';
 
@@ -66,21 +66,28 @@ export default function App() {
   }
 
   return (
-    <Camera style={styles.container} ref={cameraRef} type={type}>
-      <View style={styles.buttonContainer}>
-        <Button title="Take Pic" onPress={takePic} />
-        <Button title="flip"style={styles.button} onPress={toggleCameraType}>
-            <Text style={styles.text}>Flip Camera</Text>
-          </Button>
-      </View>
-      <StatusBar style="auto" />
-    </Camera>
+    <View style={{flex: 1, backgroundColor: '#000000'}}>
+      <Camera ratio='16:9' style={styles.container} ref={cameraRef} type={type}>
+          <View style={styles.buttonContainer}>
+            <Button title="Take Pic" onPress={takePic} />
+            <Button title="flip"style={styles.button} onPress={toggleCameraType}>
+                <Text style={styles.text}>Flip Camera</Text>
+              </Button>
+          </View>
+          {/* <StatusBar style="auto" /> */}
+        </Camera>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  backgroundColor: {
+    backgroundColor: '#000000',
+  },
   container: {
     flex: 1,
+    height:650,
+    marginTop: 50,
     alignItems: 'center',
     justifyContent: 'center',
   },
