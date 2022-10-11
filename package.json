@@ -1,18 +1,30 @@
 {
   "name": "my_snapchat",
   "version": "1.0.0",
-  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "instal": "expo install expo-status-bar",
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo/webpack-config": "^0.17.0",
     "expo": "~46.0.13",
+    "expo-splash-screen": "~0.16.2",
     "expo-status-bar": "~1.4.0",
+    "pod-install": "^0.1.38",
     "react": "18.0.0",
-    "react-native": "0.69.6"
+    "react-dom": "18.0.0",
+    "react-native": "0.69.6",
+    "react-native-loading-view": "^1.0.1",
+    "react-native-permissions": "^3.6.1",
+    "react-native-reanimated": "~2.9.1",
+    "react-native-vision-camera": "^2.14.1",
+    "react-native-web": "~0.18.7",
+    "expo-camera": "~12.3.0",
+    "expo-sharing": "~10.3.0",
+    "expo-media-library": "~14.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
