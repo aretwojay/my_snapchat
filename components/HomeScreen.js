@@ -10,8 +10,8 @@ export function HomeScreen({ navigation }) {
         onPress={() => navigation.navigate('Register')}
       />
       <Button
-        title="Go camera"
-        onPress={() => navigation.navigate('Camera')}
+        title="Connexion"
+        onPress={() => navigation.navigate('Login')}
       />
     </View>
   );

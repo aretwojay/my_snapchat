@@ -2,31 +2,22 @@ import React, { FC, ReactElement, useState } from "react";
 import { Button, StyleSheet, TextInput, View, Alert } from "react-native";
 import axios from "axios";
 
-export const RegisterScreen = ({ navigation }) => {
-    const doUserRegistration = () => {
+export const LoginScreen = () => {
+    const doUserLogin = () => {
 
-        axios.post('http://snapi.epitech.eu:8000/inscription', {
+        axios.post('http://snapi.epitech.eu:8000/connexion', {
             email: email,
             password: password
         })
             .then(function (response) {
-                Alert.alert("Bienvenue !",
-                    "Connectez-vous pour poursuivre l'aventure !",
-                    [
-                        {
-                            text: "Annuler",
-                            style: "cancel"
-                        },
-                        { text: "OK", onPress: () => navigation.navigate('Login')}
-                    ]
-                );
+                console.log(response);
             })
             .catch(function (error) {
                 if (email == "" || password == "") {
                     msg = "Veuillez remplir l'un des champs."
                 }
                 else {
-                    msg = "Cet email est déjà pris."
+                    msg = "Vos identifiants sont incorrects."
                 }
                 Alert.alert("Erreur",
                     msg,
@@ -36,8 +27,8 @@ export const RegisterScreen = ({ navigation }) => {
                             style: "cancel"
                         },
                         { text: "OK" }
-                    ]
-                );
+                    ]);
+
             });
     };
 
@@ -60,7 +51,7 @@ export const RegisterScreen = ({ navigation }) => {
                 secureTextEntry
                 onChangeText={(text) => setPassword(text)}
             />
-            <Button title={"S'inscrire"} onPress={doUserRegistration} />
+            <Button title={"Se connecter"} onPress={doUserLogin} />
         </View>
     );
 };
