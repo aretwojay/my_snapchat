@@ -13,6 +13,10 @@ export function HomeScreen({ navigation }) {
         title="Go camera"
         onPress={() => navigation.navigate('Camera')}
       />
+      <Button
+        title="Go chat"
+        onPress={() => navigation.navigate('Chat')}
+      />
     </View>
   );
 }
