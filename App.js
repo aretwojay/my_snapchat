@@ -5,6 +5,7 @@ import { StyleSheet, Text, View, SafeAreaView, Button, Image } from 'react-nativ
 import { HomeScreen } from './components/HomeScreen';
 import { ProfileScreen } from './components/ProfileScreen';
 import { CameraScreen } from './components/CameraScreen';
+import { ChatScreen } from './components/ChatScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,7 @@ const App = () => {
           component={HomeScreen}
           options={{ title: 'Welcome' }}
         />
+        <Stack.Screen name="Chat" component={ChatScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="Camera" component={CameraScreen} />
       </Stack.Navigator>

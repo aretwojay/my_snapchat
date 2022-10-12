@@ -4,8 +4,6 @@ import { useEffect, useRef, useState } from 'react';
 import { Camera, CameraType, FlashMode } from 'expo-camera';
 import { shareAsync } from 'expo-sharing';
 import * as MediaLibrary from 'expo-media-library';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 export function CameraScreen() {
   let cameraRef = useRef();
@@ -80,9 +78,9 @@ export function CameraScreen() {
             onPress={() => navigation.navigate('Details')}
           />
         </View>
-
+<TouchableOpacity style={styles.takePic} onPress={takePic}/>
       </Camera>
-      <TouchableOpacity style={styles.takePic} onPress={takePic}/>
+      
 
     </View>
   );
@@ -97,15 +95,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   takePic: {
-    borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.2)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 75,
-    height: 75,
-    backgroundColor: '#fff',
-    borderRadius: 50,
-    alignSelf: "center"
+    position: 'absolute',
+    bottom: '20',
+    borderWidth: 6,
+    width: 80,
+    height: 80,
+    borderRadius: 100,
+    borderColor: '#eee',
+    alignSelf: "center",
   },
   buttonContainer: {
     backgroundColor: '#fff',
