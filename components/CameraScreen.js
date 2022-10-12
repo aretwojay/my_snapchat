@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import { Camera, CameraType, FlashMode } from 'expo-camera';
 import { shareAsync } from 'expo-sharing';
 import * as MediaLibrary from 'expo-media-library';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import * as ImagePicker from 'expo-image-picker';
 
 export function CameraScreen() {
   let cameraRef = useRef();
@@ -68,7 +70,7 @@ export function CameraScreen() {
   return (
     <View style={{ flex: 1, backgroundColor: '#000000' }}>
       <StatusBar style="auto" />
-      <Camera ratio='16:9' style={styles.container} ref={cameraRef} type={type}>
+      <Camera ratio='16:9' style={styles.camera} ref={cameraRef} type={type}>
 
         <View style={styles.header}>
 
@@ -78,6 +80,9 @@ export function CameraScreen() {
           <Button title="flip" style={styles.button} onPress={toggleCameraType}>
             <Text style={styles.text}>Flip Camera</Text>
           </Button>
+          {/* <FontAwesome.Button name="facebook" backgroundColor="#3b5998">
+            Login
+          </FontAwesome.Button> */}
           <Button
             title="Go to Details"
             onPress={() => navigation.navigate('Details')}
@@ -94,6 +99,15 @@ export function CameraScreen() {
 }
 
 const styles = StyleSheet.create({
+  camera: {
+    width: '100%',
+    marginTop: 50,
+    height: 650,
+    alignItems: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+  },
   container: {
     flex: 1,
     height: 650,

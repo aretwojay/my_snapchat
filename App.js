@@ -5,13 +5,14 @@ import { StyleSheet, Text, View, SafeAreaView, Button, Image } from 'react-nativ
 import { HomeScreen } from './components/HomeScreen';
 import { ProfileScreen } from './components/ProfileScreen';
 import { CameraScreen } from './components/CameraScreen';
+import { RegisterScreen } from './components/security/RegisterScreen';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen
           name="Home"
           component={HomeScreen}
@@ -19,6 +20,8 @@ const App = () => {
         />
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="Camera" component={CameraScreen} />
+        <Stack.Screen name="Register" component={RegisterScreen} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
