@@ -5,7 +5,7 @@ import axios from "axios";
 export const LoginScreen = () => {
     const doUserLogin = () => {
 
-        axios.post('http://snapi.epitech.eu:8000/connexion', {
+        axios.post('http://snapi.epitech.eu:8000/connection', {
             email: email,
             password: password
         })
@@ -45,6 +45,7 @@ export const LoginScreen = () => {
                 autoCapitalize={"none"}
             />
             <TextInput
+                autoCapitalize={"none"}
                 style={styles.input}
                 value={password}
                 placeholder={"Password"}
