@@ -46,7 +46,7 @@ export const LoginScreen = ({navigation}) => {
     const [password, setPassword] = useState("");
 
     return (
-        <View style={{ flex: 1, justifyContent: 'center' }}>
+        <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 10, backgroundColor: "#ffd600" }}>
             <TextInput
                 style={styles.input}
                 value={email}
@@ -69,6 +69,8 @@ export const LoginScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
     input: {
+        paddingLeft: 8,
+        borderRadius: 5,
         height: 40,
         marginBottom: 10,
         backgroundColor: '#fff',

@@ -35,11 +35,10 @@ export const RegisterScreen = ({ navigation }) => {
                     Alert.alert("Bienvenue !",
                         "Connectez-vous pour poursuivre l'aventure !",
                         [
-                            { text: "OK",  onPress: () => navigation.navigate('Login')}
+                            { text: "OK", onPress: () => navigation.replace('Login') }
                         ]
                     );
                 }
-
             })
             .catch(function (error) {
                 if (email == "" || password == "") {
@@ -57,7 +56,7 @@ export const RegisterScreen = ({ navigation }) => {
     const [confirmPassword, setConfirmPassword] = useState("");
 
     return (
-        <View style={{ flex: 1, justifyContent: 'center' }}>
+        <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 10, backgroundColor: "#ffd600" }}>
             <TextInput
                 style={styles.input}
                 value={email}
@@ -88,6 +87,8 @@ export const RegisterScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     input: {
+        paddingLeft: 8,
+        borderRadius: 5,
         height: 40,
         marginBottom: 10,
         backgroundColor: '#fff',

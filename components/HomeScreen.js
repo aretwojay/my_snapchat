@@ -1,16 +1,15 @@
-import React, {  Component, useState, useEffect } from 'react';
-import { PermissionsAndroid, Button, View, Text } from 'react-native';
+import React, { Component, useState, useEffect } from 'react';
+import { StyleSheet, TouchableOpacity, Icon, Text, View, SafeAreaView, Button, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CameraScreen } from './CameraScreen';
 import { ChatScreen } from './User/ChatScreen';
 import { ProfileScreen } from './User/ProfileScreen';
 import Swiper from 'react-native-web-swiper';
-import { Camera, CameraType, FlashMode } from 'expo-camera';
+import { useNavigation } from '@react-navigation/native';
 
-export function HomeScreen({ navigation }) {
+export function HomeScreen() {
   const [User, setUser] = useState();
-  const [hasCameraPermission, setHasCameraPermission] = useState();
-  
+  const navigation = useNavigation();
   AsyncStorage.getItem("user").then((value) => {
     setUser(value);
     console.log(value);
@@ -19,29 +18,62 @@ export function HomeScreen({ navigation }) {
   if (User) {
 
     return (
-      <Swiper 
-      from={0} 
-      loop={false}
-      controlsEnabled={false}
-      minDistanceForAction={0.15}
+      <Swiper
+        from={1}
+        loop={false}
+        controlsEnabled={false}
+        minDistanceForAction={0.15}
       >
-          <ChatScreen/>     
-          <CameraScreen/>     
-          <ProfileScreen/>
+        <ChatScreen />
+        <CameraScreen />
+        <ProfileScreen />
       </Swiper>
     )
   }
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-      <Button
-        title="Inscription"
-        onPress={() => navigation.navigate('Register')}
-      />
-      <Button
-        title="Connexion"
-        onPress={() => navigation.navigate('Login')}
-      />
+    <View style={{ flex: 1, backgroundColor: "#ffd600" ,alignItems: 'center', justifyContent: 'center' }}>
+      <Text style={{fontWeight: "bold"}}>My_Snapchat</Text>
+
+      <View style={styles.footer}>
+        <TouchableOpacity
+          style={styles.btnRegister}
+          onPress={() => navigation.navigate('Register')}
+        >
+          <Text style={styles.textBtn}>Inscription</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.btnLogin}
+          onPress={() => navigation.navigate('Login')}
+        >
+          <Text style={styles.textBtn}>Connexion</Text>
+        </TouchableOpacity>
+      </View>
+
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  footer: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+  },
+  btnRegister: {
+    backgroundColor: "#2986CC",
+    elevation: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 12
+  },
+  btnLogin: {
+    backgroundColor: "#B20000",
+    elevation: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 12
+  },
+  textBtn: {
+    alignSelf: "center",
+    color: "#ffffff",
+    textTransform: "uppercase"
+  }
+});

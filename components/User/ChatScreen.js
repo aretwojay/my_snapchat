@@ -26,14 +26,6 @@ export function ChatScreen({ navigation }) {
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text>Chat Screen</Text>
-            <Button
-                title="Inscription"
-                onPress={() => navigation.navigate('Register')}
-            />
-            <Button
-                title="Connexion"
-                onPress={() => navigation.navigate('Login')}
-            />
         </View>
     );
 }
