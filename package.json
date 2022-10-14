@@ -5,12 +5,12 @@
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "instal": "expo install expo-status-bar",
     "web": "expo start --web"
   },
   "dependencies": {
     "@expo/webpack-config": "^0.17.0",
     "@parse/react-native": "^0.0.1-alpha.18",
+    "@react-native-async-storage/async-storage": "~1.17.3",
     "@react-navigation/native": "^6.0.13",
     "@react-navigation/native-stack": "^6.9.1",
     "axios": "^1.1.2",
@@ -29,8 +29,12 @@
     "react-native-loading-view": "^1.0.1",
     "react-native-permissions": "^3.6.1",
     "react-native-reanimated": "~2.9.1",
+    "react-native-swiper": "^1.6.0-rc.3",
     "react-native-vision-camera": "^2.14.1",
-    "react-native-web": "~0.18.7"
+    "react-native-web": "~0.18.7",
+    "expo-permissions": "~13.2.0",
+    "expo-file-system": "~14.1.0",
+    "expo-image-manipulator": "~10.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

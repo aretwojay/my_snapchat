@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet, Text, View, SafeAreaView, Button, Image } from 'react-native';
 import { HomeScreen } from './components/HomeScreen';
-import { ProfileScreen } from './components/ProfileScreen';
+import { ProfileScreen } from './components/User/ProfileScreen';
 import { CameraScreen } from './components/CameraScreen';
 import { RegisterScreen } from './components/security/RegisterScreen';
 import { LoginScreen } from './components/security/LoginScreen';

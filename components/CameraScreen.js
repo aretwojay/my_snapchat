@@ -6,6 +6,8 @@ import { shareAsync } from 'expo-sharing';
 import * as MediaLibrary from 'expo-media-library';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import * as ImagePicker from 'expo-image-picker';
+import * as ImageManipulator from 'expo-image-manipulator';
+import * as FileSystem from 'expo-file-system';
 
 export function CameraScreen() {
   let cameraRef = useRef();
@@ -13,6 +15,7 @@ export function CameraScreen() {
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [photo, setPhoto] = useState();
   const [type, setType] = useState(CameraType.back);
+  const [base64, setBase64] = useState();
 
   useEffect(() => {
     (async () => {
@@ -41,10 +44,25 @@ export function CameraScreen() {
     };
 
     let newPhoto = await cameraRef.current.takePictureAsync(options);
-    setPhoto(newPhoto);
+    if (type === "front"){
+      const file = await ImageManipulator.manipulateAsync(newPhoto.uri, [
+        { rotate: 180 },
+        { flip: ImageManipulator.FlipType.Vertical }
+      ],
+        { compress: 1 }
+      );
+      console.log(file);
+      setPhoto(file);
+    }
+    else {
+      setPhoto(newPhoto);
+    }
+
   };
 
   if (photo) {
+
+
     let sharePic = () => {
       shareAsync(photo.uri).then(() => {
         setPhoto(undefined);
@@ -56,10 +74,13 @@ export function CameraScreen() {
         setPhoto(undefined);
       });
     };
+    FileSystem.readAsStringAsync(photo.uri, { encoding: 'base64' }).then((value) => {
+      setBase64(value);
+    });
 
     return (
       <SafeAreaView style={styles.container}>
-        <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
+        <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + base64 }} />
         <Button title="Share" onPress={sharePic} />
         {hasMediaLibraryPermission ? <Button title="Save" onPress={savePhoto} /> : undefined}
         <Button title="Discard" onPress={() => setPhoto(undefined)} />
@@ -68,8 +89,7 @@ export function CameraScreen() {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#000000' }}>
-      <StatusBar style="auto" />
+    <View style={{ flex: 1, backgroundColor: '#000000' }} >
       <Camera ratio='16:9' style={styles.camera} ref={cameraRef} type={type}>
 
         <View style={styles.header}>

@@ -1,8 +1,11 @@
 import React, { FC, ReactElement, useState } from "react";
 import { Button, StyleSheet, TextInput, View, Alert } from "react-native";
 import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const LoginScreen = () => {
+export const LoginScreen = ({navigation}) => {
+
+
     const doUserLogin = () => {
 
         axios.post('http://snapi.epitech.eu:8000/connection', {
@@ -10,7 +13,14 @@ export const LoginScreen = () => {
             password: password
         })
             .then(function (response) {
-                console.log(response);
+                AsyncStorage.setItem("user", JSON.stringify(response.data.data)).then((value) => {
+                    AsyncStorage.getItem("user").then((value) => {
+                        console.log(value);
+                        navigation.replace("Home");
+                    })
+                })
+
+
             })
             .catch(function (error) {
                 if (email == "" || password == "") {
