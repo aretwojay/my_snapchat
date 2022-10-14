@@ -8,9 +8,10 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
 import * as FileSystem from 'expo-file-system';
+import { useIsFocused } from '@react-navigation/native';
 
 export function CameraScreen() {
-  let cameraRef = useRef();
+  const cameraRef = useRef();
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [photo, setPhoto] = useState();
@@ -18,6 +19,7 @@ export function CameraScreen() {
   const [base64, setBase64] = useState();
 
   useEffect(() => {
+
     (async () => {
       const cameraPermission = await Camera.requestCameraPermissionsAsync();
       const mediaLibraryPermission = await MediaLibrary.requestPermissionsAsync();
@@ -38,20 +40,20 @@ export function CameraScreen() {
 
   let takePic = async () => {
     let options = {
+      flash: 'on',
       quality: 0,
       base64: true,
       exif: false,
     };
 
     let newPhoto = await cameraRef.current.takePictureAsync(options);
-    if (type === "front"){
+    if (type === "front") {
       const file = await ImageManipulator.manipulateAsync(newPhoto.uri, [
         { rotate: 180 },
         { flip: ImageManipulator.FlipType.Vertical }
       ],
         { compress: 1 }
       );
-      console.log(file);
       setPhoto(file);
     }
     else {
@@ -61,8 +63,6 @@ export function CameraScreen() {
   };
 
   if (photo) {
-
-
     let sharePic = () => {
       shareAsync(photo.uri).then(() => {
         setPhoto(undefined);
@@ -81,52 +81,51 @@ export function CameraScreen() {
     return (
       <SafeAreaView style={styles.container}>
         <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + base64 }} />
-        <Button title="Share" onPress={sharePic} />
-        {hasMediaLibraryPermission ? <Button title="Save" onPress={savePhoto} /> : undefined}
-        <Button title="Discard" onPress={() => setPhoto(undefined)} />
+        <View style={styles.footer}>
+          <Button title="Share" onPress={sharePic} style={styles.footerBtn}/>
+          {hasMediaLibraryPermission ? <Button title="Save" onPress={savePhoto} style={styles.footerBtn}/> : undefined}
+          <Button title="Discard" onPress={() => setPhoto(undefined)} style={styles.footerBtn}/>
+        </View>
       </SafeAreaView>
     );
   }
 
   return (
     <View style={{ flex: 1, backgroundColor: '#000000' }} >
-      <Camera ratio='16:9' style={styles.camera} ref={cameraRef} type={type}>
+      <Camera 
+        isActive={true} 
+        ratio='16:9' 
+        style={styles.camera} 
+        ref={cameraRef} 
+        type={type}>
 
         <View style={styles.header}>
-
-        </View>
-
-        <View style={styles.buttonContainer}>
-          <Button title="flip" style={styles.button} onPress={toggleCameraType}>
-            <Text style={styles.text}>Flip Camera</Text>
-          </Button>
-          {/* <FontAwesome.Button name="facebook" backgroundColor="#3b5998">
-            Login
-          </FontAwesome.Button> */}
-          <Button
-            title="Go to Details"
-            onPress={() => navigation.navigate('Details')}
-          />
+          <FontAwesome.Button name="camera" title="flip" style={styles.button} onPress={toggleCameraType} />
         </View>
 
         <TouchableOpacity style={styles.takePic} onPress={takePic} />
 
       </Camera>
-
     </View>
   );
 
 }
 
 const styles = StyleSheet.create({
+  button: {
+    backgroundColor: 'rgba(52, 52, 52, 0.8)',
+    paddingRight: 0,
+  },
   camera: {
     width: '100%',
-    marginTop: 50,
+    marginTop: 70,
+    marginBottom: 70,
     height: 650,
     alignItems: 'center',
     alignSelf: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
+    flex: 1,
   },
   container: {
     flex: 1,
@@ -134,10 +133,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
+    backgroundColor: '#000000', 
   },
-  // header: {
-  //   justifyContent: "space-between",
-  // },
+  header: {
+    position: "absolute",
+    top: 3,
+    right: 0,
+    margin: 10,
+  },
+  footer: {
+    flexDirection: "row",
+    position: 'absolute',
+    bottom: 20,
+    left: 0,
+  },
+  footerBtn: {
+    width:50,
+    marginHorizontal: 100,
+  },
   takePic: {
     position: 'absolute',
     bottom: 20,
@@ -153,7 +166,14 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end'
   },
   preview: {
-    alignSelf: 'stretch',
+    width: '100%',
+    marginTop: 70,
+    marginBottom: 70,
+    height: 650,
+    alignItems: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
     flex: 1,
   }
 });
