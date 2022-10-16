@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Touchable } from 'react-native-web';
+import * as MediaLibrary from 'expo-media-library';
 
 export function ChatScreen({ navigation }) {
     const [User, setUser] = useState();
@@ -35,14 +36,15 @@ export function ChatScreen({ navigation }) {
 
     function handlePress(email){
         const userSnaps = Snaps.filter((user) => user.from == email);
-        console.log(userSnaps[0].snap_id);
-        axios.get('http://snapi.epitech.eu:8000/snap/'+userSnaps[0].snap_id, {
+        console.log(userSnaps[userSnaps.length - 1].snap_id);
+        axios.get('http://snapi.epitech.eu:8000/snap/'+userSnaps[userSnaps.length - 1].snap_id, {
             headers: {
                 token: User.token
             }
         })
             .then(function (response) {
-                console.log(response.data.data)
+                console.log(response.data.data);
+                
             })
             .catch(function (error) {
                 console.log(error);
@@ -76,18 +78,9 @@ export function ChatScreen({ navigation }) {
 
     return (
         <View style={{ flex: 1, paddingTop: 40 }}>
-            {console.log(Snaps.length)}
-            {Snaps.length > 0 ? (
-                <AllSnaps/>
-                        // <View style={styles.user} key={index}>
-                        //     <Ionicons name="person" size={32} />
-                        //     <TouchableOpacity style={{paddingLeft:10, width:"100%"}} onPress={handlePress}>
-                        //         <Text key={index}>{Object.keys(snap)}</Text>
-                        //         <Text>{Object.values(snap)[0] && Object.values(snap)[0].length} snap(s) reçu(s)</Text>
-                        //     </TouchableOpacity>
-                        // </View>
-                    
-                ) : (
+            <Text style={styles.heading}>Mes chats</Text>
+            {Snaps.length > 0 ? 
+            ( <AllSnaps/> ) : (
                     <Text style={styles.center}>Vous n'avez aucun snaps reçus :(</Text>
                 )
             }
@@ -100,6 +93,12 @@ export function ChatScreen({ navigation }) {
         alignSelf: "center",
         marginVertical: 300
     },
+    heading: {
+        marginTop: 20,
+        paddingLeft: 25,
+        fontSize: 25,
+        fontWeight: "bold"
+      },
     user: {
         alignItems: "center",
         flexDirection: "row",

@@ -31,9 +31,9 @@ export function HomeScreen() {
   }
   return (
     <View style={{ flex: 1, backgroundColor: "#ffd600" ,alignItems: 'center', justifyContent: 'center' }}>
-      <Text style={{fontWeight: "bold"}}>My_Snapchat</Text>
-
-      <View style={styles.footer}>
+      <Image source = {{uri:'https://logos-world.net/wp-content/uploads/2020/06/Snapchat-Logo-2011-2013.png'}}
+      style = {{ width: 200, height: 200 }}/>
+        <View style={styles.footer}>
         <TouchableOpacity
           style={styles.btnRegister}
           onPress={() => navigation.navigate('Register')}

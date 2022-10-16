@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, TouchableOpacity, Text, View, SafeAreaView, Button, Image } from 'react-native';
+import { Alert, StyleSheet, TouchableOpacity, Text, View, SafeAreaView, Button, Image } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
 import { Camera, CameraType, FlashMode } from 'expo-camera';
 import { shareAsync } from 'expo-sharing';
@@ -20,6 +20,7 @@ export function CameraScreen() {
   const [type, setType] = useState(CameraType.back);
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
   const [base64, setBase64] = useState();
+  const [selectedValue, setSelectedValue] = useState(1);
 
   useEffect(() => {
 
@@ -72,13 +73,20 @@ export function CameraScreen() {
   if (photo) {
     let sharePic = () => {
       shareAsync(photo.uri).then(() => {
-        setPhoto(undefined);
       });
     };
 
     let savePhoto = () => {
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
-        setPhoto(undefined);
+        Alert.alert(
+          'Message',
+          'Votre image a été sauvegardé.',
+          [
+            {text: 'Retour au menu', onPress: () => setPhoto(undefined)},
+            {text: 'OK'},
+          ],
+          { cancelable: false }
+        )
       });
     };
 
@@ -90,20 +98,28 @@ export function CameraScreen() {
       <SafeAreaView style={styles.container}>
         <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + base64 }} />
         <View style={styles.footer}>
-          <View style={styles.footerBtn}>
-            <Button title="Send" onPress={() => navigation.navigate("SendSnap", {data: photo})}/>
-          </View>
-          <View style={styles.footerBtn}>
-            <Button title="Share" onPress={sharePic}/>
-          </View>
 
-          <View style={styles.footerBtn}>
-          {hasMediaLibraryPermission ? <Button title="Save" onPress={savePhoto} style={styles.footerBtn}/> : undefined}
-          </View>
+          <TouchableOpacity style={styles.footerBtn}>
+            <Ionicons color="white" name="arrow-back" 
+              size={30} onPress={() => setPhoto(undefined)}  />          
+          </TouchableOpacity>
 
-          <View style={styles.footerBtn}>
-            <Button title="Discard" onPress={() => setPhoto(undefined)} style={styles.footerBtn}/>
-          </View>
+          <TouchableOpacity style={styles.footerBtn}>
+            <Ionicons color="white" name="share-social" 
+              size={30} onPress={sharePic} />          
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.footerBtn}>
+            {hasMediaLibraryPermission ? <Ionicons color="white" name="save" 
+              size={30} onPress={savePhoto} />
+              : undefined }        
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.footerBtn}>
+            <Ionicons color="white" name="send" 
+              size={30} onPress={() => navigation.navigate("SendSnap", {data: photo})}  />          
+          </TouchableOpacity>
+
         </View>
       </SafeAreaView>
     );
@@ -188,7 +204,11 @@ const styles = StyleSheet.create({
     paddingLeft: 10
   },
   footerBtn: {
-    marginHorizontal: 10,
+    marginHorizontal: 20,
+    backgroundColor: 'rgba(52, 52, 52, 0.7)',
+    borderRadius: 40,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
   },
   takePic: {
     position: 'absolute',
