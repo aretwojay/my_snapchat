@@ -12,7 +12,6 @@ export function HomeScreen() {
   const navigation = useNavigation();
   AsyncStorage.getItem("user").then((value) => {
     setUser(value);
-    console.log(value);
   })
 
   if (User) {

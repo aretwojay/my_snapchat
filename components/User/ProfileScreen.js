@@ -1,8 +1,8 @@
 import React, { Component, useState } from 'react';
 import { Button, View, Text } from 'react-native';
-import { Camera, CameraType, FlashMode } from 'expo-camera';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
 
 export function ProfileScreen() {
   const navigation = useNavigation();
@@ -10,12 +10,7 @@ export function ProfileScreen() {
 
   AsyncStorage.getItem("user").then((value) => {
     setUser(value);
-    console.log(value);
   })
-
-  Camera.requestCameraPermissionsAsync().then((value) => {
-    console.log(value);
-  });
 
   function logout() {
     AsyncStorage.removeItem("user").then((value) => {

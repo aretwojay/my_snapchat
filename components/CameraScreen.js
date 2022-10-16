@@ -8,9 +8,10 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
 import * as FileSystem from 'expo-file-system';
-import { useIsFocused } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 export function CameraScreen() {
+  const navigation = useNavigation();
   const cameraRef = useRef();
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
@@ -74,6 +75,7 @@ export function CameraScreen() {
         setPhoto(undefined);
       });
     };
+
     FileSystem.readAsStringAsync(photo.uri, { encoding: 'base64' }).then((value) => {
       setBase64(value);
     });
@@ -82,9 +84,20 @@ export function CameraScreen() {
       <SafeAreaView style={styles.container}>
         <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + base64 }} />
         <View style={styles.footer}>
-          <Button title="Share" onPress={sharePic} style={styles.footerBtn}/>
+          <View style={styles.footerBtn}>
+            <Button title="Send" onPress={() => navigation.navigate("SendSnap", {data: photo})}/>
+          </View>
+          <View style={styles.footerBtn}>
+            <Button title="Share" onPress={sharePic}/>
+          </View>
+
+          <View style={styles.footerBtn}>
           {hasMediaLibraryPermission ? <Button title="Save" onPress={savePhoto} style={styles.footerBtn}/> : undefined}
-          <Button title="Discard" onPress={() => setPhoto(undefined)} style={styles.footerBtn}/>
+          </View>
+
+          <View style={styles.footerBtn}>
+            <Button title="Discard" onPress={() => setPhoto(undefined)} style={styles.footerBtn}/>
+          </View>
         </View>
       </SafeAreaView>
     );
@@ -92,6 +105,7 @@ export function CameraScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#000000' }} >
+      <StatusBar style="auto"/>
       <Camera 
         isActive={true} 
         ratio='16:9' 
@@ -129,7 +143,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    height: 650,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
@@ -143,13 +156,12 @@ const styles = StyleSheet.create({
   },
   footer: {
     flexDirection: "row",
-    position: 'absolute',
-    bottom: 20,
+    bottom: 120,
     left: 0,
+    paddingLeft: 10
   },
   footerBtn: {
-    width:50,
-    marginHorizontal: 100,
+    marginHorizontal: 10,
   },
   takePic: {
     position: 'absolute',
