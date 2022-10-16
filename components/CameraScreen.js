@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, TouchableOpacity, Icon, Text, View, SafeAreaView, Button, Image } from 'react-native';
+import { StyleSheet, TouchableOpacity, Text, View, SafeAreaView, Button, Image } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
 import { Camera, CameraType, FlashMode } from 'expo-camera';
 import { shareAsync } from 'expo-sharing';
@@ -9,6 +9,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
 import * as FileSystem from 'expo-file-system';
 import { useNavigation } from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export function CameraScreen() {
   const navigation = useNavigation();
@@ -17,6 +18,7 @@ export function CameraScreen() {
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [photo, setPhoto] = useState();
   const [type, setType] = useState(CameraType.back);
+  const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
   const [base64, setBase64] = useState();
 
   useEffect(() => {
@@ -39,9 +41,13 @@ export function CameraScreen() {
     setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
   }
 
+  function toggleFlash() {
+    setFlash(current => (current === Camera.Constants.FlashMode.off ? Camera.Constants.FlashMode.on : Camera.Constants.FlashMode.off));
+  }
+
+
   let takePic = async () => {
     let options = {
-      flash: 'on',
       quality: 0,
       base64: true,
       exif: false,
@@ -107,16 +113,35 @@ export function CameraScreen() {
     <View style={{ flex: 1, backgroundColor: '#000000' }} >
       <StatusBar style="auto"/>
       <Camera 
+          flashMode={flash}
+        quality={0}
         isActive={true} 
         ratio='16:9' 
         style={styles.camera} 
         ref={cameraRef} 
         type={type}>
+          
 
         <View style={styles.header}>
-          <FontAwesome.Button name="camera" title="flip" style={styles.button} onPress={toggleCameraType} />
-        </View>
+          <TouchableOpacity>
+            {type == "back" ? (
+              <Ionicons color="white" name="camera-reverse" 
+              size={30} style={styles.button} onPress={toggleCameraType} />
 
+            ) : (
+              <Ionicons color="white" name="camera-reverse-outline" 
+              size={30} style={styles.button} onPress={toggleCameraType} />
+            )}
+            {flash == 1 ? (
+              <Ionicons color="white" name="flash" 
+              size={30} style={styles.button} onPress={toggleFlash} />
+            ) : (
+              <Ionicons color="white" name="flash-off" 
+              size={30} style={styles.button} onPress={toggleFlash} />
+            )} 
+
+          </TouchableOpacity>
+        </View>
         <TouchableOpacity style={styles.takePic} onPress={takePic} />
 
       </Camera>
@@ -128,7 +153,9 @@ export function CameraScreen() {
 const styles = StyleSheet.create({
   button: {
     backgroundColor: 'rgba(52, 52, 52, 0.8)',
-    paddingRight: 0,
+    borderRadius: 10.9,
+    padding: 5,
+    marginVertical: 5
   },
   camera: {
     width: '100%',

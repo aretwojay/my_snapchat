@@ -33,12 +33,14 @@ export function SendSnapScreen({route}) {
   }, [User])
 
   function send(user) {
-    axios.post('http://snapi.epitech.eu:8000/snap', {
-        duration: 5,
-        to: user,
-        image: data
-      }
-    ,{
+    let formData = new FormData();
+
+    formData.append("file", {
+      duration: 5,
+      to: user,
+      image: data
+    });
+    axios.post('http://snapi.epitech.eu:8000/snap', formData,{
       headers: {
         "Content-Type": "multipart/form-data",
         token: User.token,
@@ -84,7 +86,8 @@ export function SendSnapScreen({route}) {
 const styles = StyleSheet.create({
   user: {
     borderWidth: .3,
-    padding: 10
+    padding: 10,
+    width: "100%"
   },
   searchBar: {
     margin: 10
